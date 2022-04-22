@@ -1,10 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 
-import { getCities } from '../controllers/getCities'
-import { getLastFourteenDaysTemp } from '../controllers/getTemperatures'
-import { getLastFourteenDaysMaxTemp } from '../controllers/getMaxTemperatures'
-import { getLatestTemperature } from '../controllers/getLatestTemperature'
+import { router as citiesRouter } from '../routes/cities'
+import { router as cityRouter } from '../routes/city'
 
 
 
@@ -13,10 +11,8 @@ const PORT = 8000
 
 app.use(cors())
 
-app.get("/cities", getCities)
-app.get("/:city/chartData/temperature/", getLastFourteenDaysTemp)
-app.get("/:city/chartData/temperature/max", getLastFourteenDaysMaxTemp)
-app.get("/:city/chartData/temperature/latest", getLatestTemperature)
+app.use("/cities", citiesRouter)
+app.use("/chartData/temperature", cityRouter)
 
 
 app.listen(PORT, () => {
