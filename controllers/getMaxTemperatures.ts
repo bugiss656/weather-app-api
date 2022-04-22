@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 
 import { DateTime } from 'luxon'
 import _ from 'lodash'
+import { roundTemperatureValue } from '../utils'
 
 
 
@@ -40,7 +41,7 @@ export const getLastFourteenDaysMaxTemp = async (req: Request, res: Response) =>
     const convertedMeasurements = measurements.map((item: any) => {
         return {
             "dateTime": item.dateTime = DateTime.fromJSDate(item.dateTime).toISODate(),
-            "value": Number(item.value)
+            "value": roundTemperatureValue(Number(item.value))
         }
     })
 

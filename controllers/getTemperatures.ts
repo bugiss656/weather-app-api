@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
+import { roundTemperatureValue } from '../utils'
 
 
 
@@ -28,7 +29,14 @@ export const getLastFourteenDaysTemp = async (req: Request, res: Response) => {
         }
     })
 
-    const temperatures = query[0]['Temperature']
+    console.log(query[0]['Temperature'])
 
-    return res.json(temperatures)
+    const measurements = query[0]['Temperature'].map((measurement: any) => {
+        return {
+            'dateTime': measurement.dateTime,
+            'value': roundTemperatureValue(Number(measurement.value))
+        }
+    })
+
+    return res.json(measurements)
 }
